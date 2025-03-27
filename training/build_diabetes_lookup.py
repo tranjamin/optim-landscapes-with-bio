@@ -11,16 +11,16 @@ import numpy as np
 
 LAMBDA = 0.3
 
-df = pd.read_csv("../datasets/heart.csv")
+df = pd.read_csv("../datasets/diabetes_dataset.csv")
 data = DataManager.Data(df)
 
-data.make_categorical("HeartDisease")
+data.make_categorical("Outcome")
 data.normalise_numeric()
 
 train_data, test_data = data.train_test_split(split_ratio=0.8)
 
-train_x, train_y = train_data.input_output_split("HeartDisease")
-test_x, test_y = test_data.input_output_split("HeartDisease")
+train_x, train_y = train_data.input_output_split("Outcome")
+test_x, test_y = test_data.input_output_split("Outcome")
 
 results = {bin(0)[2:].zfill(len(train_x.columns)): 1}
 penalties = {bin(0)[2:].zfill(len(train_x.columns)): 0}
@@ -52,9 +52,9 @@ for i in range(1, 2**len(train_x.columns)):
 
     print(f"Model {i}: Misclass: {score} | Eval time: {time.time() - stime} seconds")
 
-pd.to_pickle(totals, "out/heart.pickle")
-pd.DataFrame(totals.items()).to_csv("out/heart.csv", index=False, header=False)
-pd.to_pickle(results, "out/heart_err.pickle")
-pd.DataFrame(results.items()).to_csv("out/heart_err.csv", index=False, header=False)
-pd.to_pickle(penalties, "out/heart_pen.pickle")
-pd.DataFrame(penalties.items()).to_csv("out/heart_pen.csv", index=False, header=False)
+pd.to_pickle(totals, "out/diabetes.pickle")
+pd.DataFrame(totals.items()).to_csv("out/diabetes.csv", index=False, header=False)
+pd.to_pickle(results, "out/diabetes_err.pickle")
+pd.DataFrame(results.items()).to_csv("out/diabetes_err.csv", index=False, header=False)
+pd.to_pickle(penalties, "out/diabetes_pen.pickle")
+pd.DataFrame(penalties.items()).to_csv("out/diabetes_pen.csv", index=False, header=False)
